@@ -10,7 +10,7 @@ public class LV1_TO_LV2 : MonoBehaviour
 
         if (other.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("PaulLvL2");
+            SceneManager.LoadScene("Level2");
         }
 
     }
