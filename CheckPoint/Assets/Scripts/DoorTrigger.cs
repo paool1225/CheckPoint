@@ -21,9 +21,10 @@ public class DoorTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && soundEffect != null && audioSource != null)
+        if (other.CompareTag("Player") && soundEffect != null)
         {
-            audioSource.PlayOneShot(soundEffect);
+            AudioManager.Instance.PlaySoundEffect(soundEffect);
         }
     }
+
 }
