@@ -38508,8 +38508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e83d8aa34a09a6499bb8baf152ad017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1211919650}
-  p: 30
+  target: {fileID: 1211919654}
+  offset: {x: 0, y: 5, z: -10}
 --- !u!114 &1916367287
 MonoBehaviour:
   m_ObjectHideFlags: 0
