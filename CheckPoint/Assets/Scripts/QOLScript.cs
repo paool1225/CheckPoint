@@ -12,6 +12,11 @@ public class QOLScript : MonoBehaviour
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadSceneAsync("MainMenu");
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

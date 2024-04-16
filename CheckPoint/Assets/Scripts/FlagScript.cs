@@ -6,10 +6,23 @@ using UnityEngine.SceneManagement;
 public class FlagScript : MonoBehaviour
 {
     public GameObject deathEffect;
+    private Rigidbody2D rb;
+    public bool isStuck = false;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag("Death"))
+        if (col.gameObject.CompareTag("Ground") && !isStuck)
+        {
+            rb.velocity = Vector2.zero; // Stop the flag movement
+            rb.isKinematic = true; // Make the flag kinematic to stop physics interactions
+            isStuck = true;
+        }
+        else if (col.collider.CompareTag("Death"))
         {
             Instantiate(deathEffect, transform.position, transform.rotation);
             Destroy(gameObject); // Destroy the flag
@@ -19,7 +32,13 @@ public class FlagScript : MonoBehaviour
 
     void ResetScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ResetFlag()
+    {
+        rb.isKinematic = false;
+        isStuck = false;
     }
 }
-
