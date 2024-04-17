@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class Camera_Control_Flag : MonoBehaviour
 {
+    public Transform present;
     public Transform flag; // Target to follow
-    public Transform flag2; 
+    public Transform pflag; // player flag when flag on land is gone
     public Vector3 offset = new Vector3(0, 5, -10); // Offset from the target
+
+    [SerializeField] FlagScript Alive; // gets variable to check if flag is still on level
 
     public void SetTarget(Transform newTarget)
     {
-        flag = newTarget;
+        present = newTarget;
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (flag != null)
+        
+            if (Alive.isPresent == true)
+            {
+                transform.position = Alive.flagPos + offset; //Follow the target with specified offset
+            }
+        else
         {
-            transform.position = flag.position + offset; //Follow the target with specified offset
-        }
-        if (flag2 == null)
-        {
-            transform.position = flag2.position + offset;
+            SetTarget(pflag);
+            transform.position = pflag.position + offset;
         }
        
     }
