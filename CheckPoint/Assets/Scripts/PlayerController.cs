@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
 
     private bool ignoreNextFlagCollision = false; // To ignore flag collision immediately after throwing
 
+    public AudioSource audioSource;  // Add this
+    public AudioClip deathSound;     // Add this
+
     void Update()
     {
         if (!isDead)
@@ -114,6 +117,7 @@ public class PlayerController : MonoBehaviour
         if (col.collider.CompareTag("Death"))
         {
             Instantiate(deathEffect, transform.position, transform.rotation);
+            audioSource.PlayOneShot(deathSound);  // Play death sound
             if (flagInstance != null)
             {
                 transform.position = flagInstance.transform.position;
