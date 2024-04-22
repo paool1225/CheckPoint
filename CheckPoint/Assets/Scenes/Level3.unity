@@ -83214,7 +83214,6 @@ GameObject:
   - component: {fileID: 2071608149}
   - component: {fileID: 2071608148}
   - component: {fileID: 2071608147}
-  - component: {fileID: 2071608146}
   - component: {fileID: 2071608145}
   - component: {fileID: 2071608144}
   m_Layer: 0
@@ -83332,19 +83331,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2071608146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071608143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 333b1cc971c689445842248778001d4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEffect: {fileID: 8300000, guid: aec3935f95d58a846be97b34ca31eb51, type: 3}
 --- !u!61 &2071608147
 BoxCollider2D:
   m_ObjectHideFlags: 0
