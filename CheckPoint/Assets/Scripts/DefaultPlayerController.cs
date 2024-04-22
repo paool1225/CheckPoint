@@ -30,11 +30,14 @@ public class DefaultPlayerController : MonoBehaviour
 
     // Audio management
     public AudioSource audioSource;
+
+    private AudioClip throwSound, jumpSound;
     public AudioClip deathSound;
 
     void Start()
-    {
-        // Initialize any necessary settings
+    { 
+        throwSound = Resources.Load<AudioClip>("Sounds/Throw");
+        jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
     }
 
     void Update()
@@ -49,6 +52,7 @@ public class DefaultPlayerController : MonoBehaviour
             Vector2 mouseDir = (mousePosition - (Vector2)transform.position).normalized;
             if (Input.GetKey(KeyCode.Mouse0) && hasFlag)
             {
+                audioSource.PlayOneShot(throwSound);
                 hasFlag = false;
                 flagInstance = Instantiate(flagPrefab, transform.position, Quaternion.identity);
                 flagInstance.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity + (mouseDir * throwVelocity);
@@ -61,6 +65,7 @@ public class DefaultPlayerController : MonoBehaviour
             // Jumping
             if (Input.GetKey(jump) && isGrounded)
             {
+                audioSource.PlayOneShot(jumpSound);
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpVelocity);
             }
         }
