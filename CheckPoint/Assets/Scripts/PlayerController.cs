@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,18 +29,22 @@ public class PlayerController : MonoBehaviour
     public float jumpVelocity = 10;
 
     public bool isDead = false;
+    
+    public CameraShake cameraShake;
 
     private bool ignoreNextFlagCollision = false; // To ignore flag collision immediately after throwing
 
     public AudioSource audioSource;  // Add this
-    
+
     private AudioClip throwSound, jumpSound;
+    //private AudioClip landingSound;
     public AudioClip deathSound;     // Add this
 
     void Start()
     {
         throwSound = Resources.Load<AudioClip>("Sounds/Throw");
         jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
+        //landingSound = Resources.Load<AudioClip>("Sounds/landing");
     }
     
     void Update()
@@ -98,7 +103,10 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator End()
     {
-        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(cameraShake.Shake(1f, 0.4f));
+        
+        yield return new WaitForSeconds(5.0f);
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -127,7 +135,18 @@ public class PlayerController : MonoBehaviour
         if (col.collider.CompareTag("Death"))
         {
             Instantiate(deathEffect, transform.position, transform.rotation);
-            audioSource.PlayOneShot(deathSound);  // Play death sound
+            int chooseSound = Random.Range(0, 11) % 2;
+
+            if (chooseSound == 0)
+            {
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
+            }
+
+            else
+            {
+                audioSource.PlayOneShot(deathSound);  // Play death sound
+            }
+            
             if (flagInstance != null)
             {
                 transform.position = flagInstance.transform.position;
