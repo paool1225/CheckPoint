@@ -34,14 +34,14 @@ public class PlayerController : MonoBehaviour
 
     private bool ignoreNextFlagCollision = false; // To ignore flag collision immediately after throwing
 
-    public AudioSource audioSource;
+    public AudioSource audioSource, jumpSource, throwSource;
 
-    private AudioClip throwSound, jumpSound, deathSound; // Removed unnecessary comments
+    private AudioClip deathSound; // Removed unnecessary comments
 
     void Start()
     {
-        throwSound = Resources.Load<AudioClip>("Sounds/Throw");
-        jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
+        //throwSound = Resources.Load<AudioClip>("Sounds/Throw");
+        //jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
         deathSound = Resources.Load<AudioClip>("Sounds/death"); // Ensure this path is correct
     }
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Mouse0) && hasFlag)
             {
-                audioSource.PlayOneShot(throwSound);
+                throwSource.Play();
                 hasFlag = false;
                 ignoreNextFlagCollision = true;
                 flagInstance = Instantiate(flagPrefab, transform.position, Quaternion.identity);
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(jump) && isGrounded)
             {
-                audioSource.PlayOneShot(jumpSound);
+                jumpSource.Play();
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpVelocity);
             }
         }
