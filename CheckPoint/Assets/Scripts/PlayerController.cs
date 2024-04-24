@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,7 +43,10 @@ public class PlayerController : MonoBehaviour
     {
         //throwSound = Resources.Load<AudioClip>("Sounds/Throw");
         //jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
-        deathSound = Resources.Load<AudioClip>("Sounds/death"); // Ensure this path is correct
+        //deathSound2 = Resources.Load<AudioClip>("Sounds/death"); // Ensure this path is correct
+
+        deathSound = Resources.Load<AudioClip>("Sounds/Death");
+
     }
 
     void Update()
@@ -102,9 +106,10 @@ public class PlayerController : MonoBehaviour
     IEnumerator End()
     {
         Debug.Log("End coroutine started."); // Debug statement
-        yield return StartCoroutine(cameraShake.Shake(1f, 0.4f));
 
-        yield return new WaitForSeconds(5.0f);
+        cameraShake.ShakeCamera(1.0f, 0.4f);
+
+        yield return new WaitForSeconds(1.0f);
 
         Debug.Log("Reloading scene now."); // Debug statement
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -156,9 +161,42 @@ public class PlayerController : MonoBehaviour
 
     void PlayDeathSound()
     {
-        int chooseSound = Random.Range(0, 11) % 2;
-        AudioClip deathClip = chooseSound == 0 ? Resources.Load<AudioClip>("Sounds/lego-breaking") : deathSound;
-        audioSource.PlayOneShot(deathClip);  // Play death sound
-        Debug.Log("Playing death sound: " + deathClip.name); // Debug statement
+        int chooseSound = Random.Range(0, 51) % 5;
+        //AudioClip deathClip;
+        
+        switch (chooseSound)
+        {
+            case 0:
+                //deathClip = deathSound;
+                audioSource.PlayOneShot(deathSound);
+                break;
+            case 1:
+                //deathClip = Resources.Load<AudioClip>("Sounds/lego-breaking");
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
+                Debug.Log("Playing death sound: lego-breaking"); // Debug statement
+                break;
+            case 2:
+                //deathClip = Resources.Load<AudioClip>("Sounds/death3");
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death3"));
+                Debug.Log("Playing death sound: death3"); // Debug statement
+                break;
+            case 3:
+                //deathClip = Resources.Load<AudioClip>("Sounds/death4");
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death4"));
+                Debug.Log("Playing death sound: death4"); // Debug statement
+                break;
+            case 4:
+                //deathClip = Resources.Load<AudioClip>("Sounds/death5");
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death5"));
+                Debug.Log("Playing death sound: deaath5"); // Debug statement
+                break;
+            default:
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
+                Debug.Log("Playing death sound: lego-breaking"); // Debug statement
+                break;
+        }
+        
+        //audioSource.PlayOneShot(deathClip);  // Play death sound
+        //Debug.Log("Playing death sound: " + deathClip.name); // Debug statement
     }
 }

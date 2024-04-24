@@ -23,7 +23,7 @@ public class MovementSound : MonoBehaviour
             }
         }
 
-        if (!onTheGround.isGrounded || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        else if (!onTheGround.isGrounded || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
             audioSrc.Stop();
         }

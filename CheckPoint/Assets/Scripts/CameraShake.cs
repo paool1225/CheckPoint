@@ -1,14 +1,19 @@
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
-    public IEnumerator Shake(float duration, float magnitude)
+    // This method starts the coroutine with the given duration and magnitude
+    public void ShakeCamera(float duration, float magnitude)
+    {
+        StartCoroutine(Shake(duration, magnitude));
+    }
+
+    // The coroutine for shaking the camera
+    IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPos = transform.localPosition;
-
         float elapsed = 0.0f;
 
         while (elapsed < duration)
@@ -19,10 +24,9 @@ public class CameraShake : MonoBehaviour
             transform.localPosition = new Vector3(x, y, originalPos.z);
 
             elapsed += Time.deltaTime;
-            
-            yield return null;
+            yield return null; // Wait until the next frame
         }
 
-        transform.localPosition = originalPos;
+        transform.localPosition = originalPos; // Reset position after shaking
     }
 }
