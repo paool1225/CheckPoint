@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,24 +29,22 @@ public class PlayerController : MonoBehaviour
     public float jumpVelocity = 10;
 
     public bool isDead = false;
-    
+
     public CameraShake cameraShake;
 
     private bool ignoreNextFlagCollision = false; // To ignore flag collision immediately after throwing
 
-    public AudioSource audioSource;  // Add this
+    public AudioSource audioSource;
 
-    private AudioClip throwSound, jumpSound;
-    //private AudioClip landingSound;
-    public AudioClip deathSound;     // Add this
+    private AudioClip throwSound, jumpSound, deathSound; // Removed unnecessary comments
 
     void Start()
     {
         throwSound = Resources.Load<AudioClip>("Sounds/Throw");
         jumpSound = Resources.Load<AudioClip>("Sounds/jump1");
-        //landingSound = Resources.Load<AudioClip>("Sounds/landing");
+        deathSound = Resources.Load<AudioClip>("Sounds/death"); // Ensure this path is correct
     }
-    
+
     void Update()
     {
         if (!isDead)
@@ -61,7 +59,7 @@ public class PlayerController : MonoBehaviour
                 audioSource.PlayOneShot(throwSound);
                 hasFlag = false;
                 ignoreNextFlagCollision = true;
-                flagInstance = Instantiate(flagPrefab, transform.position, transform.rotation);
+                flagInstance = Instantiate(flagPrefab, transform.position, Quaternion.identity);
                 flagInstance.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity + (mouseDir * throwVelocity);
             }
 
@@ -84,8 +82,8 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        RaycastHit2D hit1 = Physics2D.Raycast(groundCheck1.transform.position, Vector3.down, 0.1f);
-        RaycastHit2D hit2 = Physics2D.Raycast(groundCheck2.transform.position, Vector3.down, 0.1f);
+        RaycastHit2D hit1 = Physics2D.Raycast(groundCheck1.transform.position, Vector2.down, 0.1f);
+        RaycastHit2D hit2 = Physics2D.Raycast(groundCheck2.transform.position, Vector2.down, 0.1f);
         isGrounded = (hit1.collider != null && hit1.collider.CompareTag("Ground")) || (hit2.collider != null && hit2.collider.CompareTag("Ground"));
     }
 
@@ -103,16 +101,18 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator End()
     {
-        StartCoroutine(cameraShake.Shake(1f, 0.4f));
-        
+        Debug.Log("End coroutine started."); // Debug statement
+        yield return StartCoroutine(cameraShake.Shake(1f, 0.4f));
+
         yield return new WaitForSeconds(5.0f);
-        
+
+        Debug.Log("Reloading scene now."); // Debug statement
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.transform.tag == "Flag")
+        if (col.CompareTag("Flag"))
         {
             if (!ignoreNextFlagCollision)
             {
@@ -134,31 +134,31 @@ public class PlayerController : MonoBehaviour
     {
         if (col.collider.CompareTag("Death"))
         {
-            Instantiate(deathEffect, transform.position, transform.rotation);
-            int chooseSound = Random.Range(0, 11) % 2;
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            PlayDeathSound();
 
-            if (chooseSound == 0)
-            {
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
-            }
-
-            else
-            {
-                audioSource.PlayOneShot(deathSound);  // Play death sound
-            }
-            
             if (flagInstance != null)
             {
+                Debug.Log("Player dying with flag instance available.");
                 transform.position = flagInstance.transform.position;
                 GetComponent<Rigidbody2D>().velocity = flagInstance.GetComponent<Rigidbody2D>().velocity;
             }
             else
             {
+                Debug.Log("Player dying without flag instance, should reload scene.");
                 visuals.SetActive(false);
                 GetComponent<Rigidbody2D>().simulated = false;
                 StartCoroutine(End());
                 isDead = true;
             }
         }
+    }
+
+    void PlayDeathSound()
+    {
+        int chooseSound = Random.Range(0, 11) % 2;
+        AudioClip deathClip = chooseSound == 0 ? Resources.Load<AudioClip>("Sounds/lego-breaking") : deathSound;
+        audioSource.PlayOneShot(deathClip);  // Play death sound
+        Debug.Log("Playing death sound: " + deathClip.name); // Debug statement
     }
 }
