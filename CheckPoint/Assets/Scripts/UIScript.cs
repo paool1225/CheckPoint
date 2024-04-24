@@ -25,5 +25,9 @@ public class UIScript : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("Level4");
     }
+    public void MainMenu()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
+    }
 
 }
