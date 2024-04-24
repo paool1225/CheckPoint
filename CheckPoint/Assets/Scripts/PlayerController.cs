@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public GameObject groundCheck2;
     public bool isGrounded = false;
 
+    private bool bullyMode = false;
+
     public float jumpVelocity = 10;
 
     public bool isDead = false;
@@ -75,6 +77,11 @@ public class PlayerController : MonoBehaviour
                 jumpSource.Play();
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpVelocity);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            bullyMode = !bullyMode;
         }
     }
 
@@ -162,41 +169,66 @@ public class PlayerController : MonoBehaviour
     void PlayDeathSound()
     {
         int chooseSound = Random.Range(0, 51) % 5;
-        //AudioClip deathClip;
         
-        switch (chooseSound)
+        if (!bullyMode)
         {
-            case 0:
-                //deathClip = deathSound;
-                audioSource.PlayOneShot(deathSound);
-                break;
-            case 1:
-                //deathClip = Resources.Load<AudioClip>("Sounds/lego-breaking");
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
-                Debug.Log("Playing death sound: lego-breaking"); // Debug statement
-                break;
-            case 2:
-                //deathClip = Resources.Load<AudioClip>("Sounds/death3");
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death3"));
-                Debug.Log("Playing death sound: death3"); // Debug statement
-                break;
-            case 3:
-                //deathClip = Resources.Load<AudioClip>("Sounds/death4");
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death4"));
-                Debug.Log("Playing death sound: death4"); // Debug statement
-                break;
-            case 4:
-                //deathClip = Resources.Load<AudioClip>("Sounds/death5");
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death5"));
-                Debug.Log("Playing death sound: deaath5"); // Debug statement
-                break;
-            default:
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
-                Debug.Log("Playing death sound: lego-breaking"); // Debug statement
-                break;
+            switch (chooseSound)
+            {
+                case 0:
+                    audioSource.PlayOneShot(deathSound);
+                    break;
+                case 1:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
+                    Debug.Log("Playing death sound: lego-breaking"); // Debug statement
+                    break;
+                case 2:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death3"));
+                    Debug.Log("Playing death sound: death3"); // Debug statement
+                    break;
+                case 3:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death4"));
+                    Debug.Log("Playing death sound: death4"); // Debug statement
+                    break;
+                case 4:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/death5"));
+                    Debug.Log("Playing death sound: deaath5"); // Debug statement
+                    break;
+                default:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/lego-breaking"));
+                    Debug.Log("Playing death sound: lego-breaking"); // Debug statement
+                    break;
+            }
         }
-        
-        //audioSource.PlayOneShot(deathClip);  // Play death sound
-        //Debug.Log("Playing death sound: " + deathClip.name); // Debug statement
+
+        else
+        {
+            switch (chooseSound)
+            {
+                case 0:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully1"));
+                    Debug.Log("Playing death sound: bully1"); // Debug statement
+                    break;
+                case 1:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully2"));
+                    Debug.Log("Playing death sound: bully1"); // Debug statement
+                    break;
+                case 2:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully3"));
+                    Debug.Log("Playing death sound: bully2"); // Debug statement
+                    break;
+                case 3:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully4"));
+                    Debug.Log("Playing death sound: bully3"); // Debug statement
+                    break;
+                case 4:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully5"));
+                    Debug.Log("Playing death sound: bully5"); // Debug statement
+                    break;
+                default:
+                    audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/bully/bully1"));
+                    Debug.Log("Playing death sound: bully1"); // Debug statement
+                    break;
+            }
+        }
     }
 }
