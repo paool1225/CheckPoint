@@ -7,7 +7,6 @@ public class PlatformPatrol : MonoBehaviour
     public Transform pointA;
     public Transform pointB;
     public float speed = 2f;
-
     private Vector3 currentTarget;
 
     void Start()
